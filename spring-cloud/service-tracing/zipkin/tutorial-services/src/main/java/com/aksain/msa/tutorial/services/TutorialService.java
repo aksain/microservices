@@ -10,6 +10,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -24,6 +25,9 @@ import com.aksain.msa.tutorial.domainobjects.Tutorial;
 @Service
 public class TutorialService {
 	private final List<Tutorial> tutorials = new ArrayList<>();
+	
+	@Value("${service.author.baseURI}")
+	private String authorBaseURI;
 	
 	@Inject
 	private RestTemplate restTemplate;
@@ -41,7 +45,7 @@ public class TutorialService {
 		final Tutorial tutorial = tutorials.stream().filter((tmpTutorial) -> tmpTutorial.getId() == tutorialId).findFirst()
 				.get();
 
-		final Author author = restTemplate.getForObject(URI.create("http://localhost:7777/author/" + tutorial.getAuthorId()), Author.class);
+		final Author author = restTemplate.getForObject(URI.create(authorBaseURI + tutorial.getAuthorId()), Author.class);
 		tutorial.setAuthorName(author.getName());
 		
 		return tutorial;
