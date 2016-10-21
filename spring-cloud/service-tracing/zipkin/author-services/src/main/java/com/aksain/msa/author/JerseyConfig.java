@@ -3,7 +3,6 @@ package com.aksain.msa.author;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.stereotype.Component;
 
-import com.aksain.msa.author.domainobjects.Author;
 import com.aksain.msa.author.resources.AuthorResource;
 
 @Component
